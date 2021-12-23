@@ -1,0 +1,21 @@
+selain -> palvelin: HTTP GET https://studies.cs.helsinki.fi/exampleapp/notes
+palvelin --> selain: HTML-koodi
+selain -> palvelin: HTTP GET https://studies.cs.helsinki.fi/exampleapp/notes/main.js
+palvelin --> selain: main.js
+selain -> palvelin: HTTP GET https://studies.cs.helsinki.fi/exampleapp/notes/main.css
+palvelin --> selain: main.css
+
+note over selain:
+selain alkaa suorittaa js-koodia
+joka pyytää JSON-datan palvelimelta
+end note
+
+selain -> palvelin: HTTP GET https://studies.cs.helsinki.fi/exampleapp/notes/data.json
+
+note:
+Datan saapuessa selain suorittaa tapahtumakäsittelijän, joka renderöi datan ruudulle DOM-apia käyttäen.
+
+selain -> palvelin: HTTP POST https://studies.cs.helsinki.fi/exampleapp/new_note
+
+note:
+Painaessa "Save" nappia lähetämme palvelimelle POST requestin, jonka avulla tesktikentän teksti saadaan backendille, jonka jälkeen se lisätään tietokantaan ja renderöidään ruudulle.
