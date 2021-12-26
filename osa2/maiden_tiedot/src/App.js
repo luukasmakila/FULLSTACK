@@ -1,39 +1,35 @@
 import React, {useState, useEffect} from "react"
 import axios from 'axios'
+import Info from "./components/Info"
 
-const Countries = ({countriesToShow}) => {
+const Countries = ({countriesToShow, handleClick}) => {
+  
   if (countriesToShow.length > 10) {
     return (
       <h3>Too many matches, specify another filter</h3>
     )
   }
-  else if (countriesToShow.length < 10 && countriesToShow.length > 1) {
+  else if (countriesToShow.length <= 10 && countriesToShow.length > 1) {
     return (
       <div>
         {countriesToShow.map(country => 
-          <h3 key={country.name}>{country.name}</h3>
+          <div key={country.name}>
+            <h3>{country.name} <button value={country.name} onClick={handleClick}>show</button></h3>
+          </div>
         )}
+      </div>
+    )
+  }
+  else if (countriesToShow.length === 1) {
+    return (
+      <div>
+        <Info country={countriesToShow[0]}/>
       </div>
     )
   }
   else {
     return (
-      <div>
-        {countriesToShow.map(country =>
-          <div key={country.name}>
-            <h1>{country.name}</h1>
-            <p>capital {country.capital}</p>
-            <p>population {country.population}</p>
-            <h3>languages</h3>
-            {country.languages.map(language =>
-              <ul key={language.name}>
-                <li>{language.name}</li>
-              </ul>
-            )}
-            <img src={country.flags.svg} width="400" height="200" alt="flag"/>
-          </div>
-        )}
-      </div>
+      <h3>No matches found</h3>
     )
   }
 }
@@ -57,6 +53,11 @@ const App = () => {
   const countriesToShow = showAll
     ? countries
     : countries.filter(country => country.name.toLocaleLowerCase().includes(filter.toLocaleLowerCase()) === true)
+  
+  const handleClick = (event) => {
+    event.preventDefault()
+    setFilter(event.target.value)
+  }
 
   const handleFilterChange = (event) => {
     setFilter(event.target.value)
@@ -66,7 +67,7 @@ const App = () => {
   return (
     <div>
       <div>find countries <input onChange={handleFilterChange}/></div>
-      <Countries countriesToShow={countriesToShow}/>
+      <Countries countriesToShow={countriesToShow} handleClick={handleClick}/>
     </div>
   )
 }
