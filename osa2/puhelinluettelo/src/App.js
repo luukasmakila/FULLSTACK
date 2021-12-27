@@ -3,6 +3,8 @@ import numberService from "./services/Numbers"
 import Persons from './components/Persons'
 import PersonForm from './components/PersonForm'
 import Filter from './components/Filter'
+import Notification from './components/Notification'
+import './index.css'
 
 const App = () => {
   const [persons, setPersons] = useState([])
@@ -10,6 +12,8 @@ const App = () => {
   const [newNumber, setNewNumber] = useState("")
   const [filter, setFilter] = useState("")
   const [showAll, setShowAll] = useState(true)
+  const [message, setMessage] = useState(null)
+  const [error, setError] = useState("false")
 
   const personsToShow = showAll
   ? persons
@@ -38,7 +42,13 @@ const App = () => {
         .getAll()
         .then(numbers => {
           setPersons(numbers)
+          setMessage(`${personToDelete[0].name} was deleted from the phonebook.`)
+          setTimeout(() => {
+            setMessage(null)
+          }, 3000)
         })
+        setNewName("")
+        setNewNumber("")
       })
     }
   }
@@ -60,6 +70,17 @@ const App = () => {
         .changeNumber(id, changedNumber)
         .then(newData => {
           setPersons(persons.map(person => person.id !== id ? person : newData))
+          setMessage(`Changed ${changingPerson[0].name}'s number!`)
+          setTimeout(() => {
+            setMessage(null)
+          }, 3000)
+        })
+        .catch(error => {
+          setMessage(`${changingPerson[0].name} has already been removed from server.`)
+          setError("true")
+          setTimeout(() => {
+            setMessage(null)
+          }, 3000)
         })
         setNewName("")
         setNewNumber("")
@@ -71,9 +92,13 @@ const App = () => {
       .then(returnedObject => {
         console.log(returnedObject)
         setPersons(persons.concat(returnedObject))
-        setNewName("")
-        setNewNumber("")
+        setMessage(`Added ${returnedObject.name} to the phonebook!`)
+        setTimeout(() => {
+          setMessage(null)
+        }, 3000)
       })
+      setNewName("")
+      setNewNumber("")
     }
   }
 
@@ -92,9 +117,10 @@ const App = () => {
 
   return (
     <div>
-      <h2>Phonebook</h2>
+      <h1>Phonebook</h1>
+      <Notification message={message} error={error}/>
       <Filter changeFilter={handleFilterChange}/>
-      <h3>add a new</h3>
+      <h2>add a new</h2>
       <PersonForm 
       addName={addName} 
       newName={newName} 
