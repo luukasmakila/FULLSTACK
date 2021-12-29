@@ -6,7 +6,7 @@
   "scripts": {
     "build:ui": "rm -rf build && cd C:/Users/luuka/Desktop/FULLSTACK/osa2/puhelinluettelo && npm run build && cp -r build C:/Users/luuka/Desktop/FULLSTACK/osa3/puhelinluettelo",
     "deploy": "git push heroku main",
-    "deploy:full": "npm run build:ui && git add . && git commit -m uibuild && git push && npm run deploy",    
+    "deploy:full": "npm run build:ui && git add . && git commit -m uibuild && git push && npm run deploy",
     "logs:prod": "heroku logs --tail",
     "start": "node index.js",
     "test": "\"\"",
@@ -20,6 +20,7 @@
   "dependencies": {
     "cors": "^2.8.5",
     "express": "^4.17.2",
+    "mongoose": "^6.1.4",
     "morgan": "^1.10.0"
   },
   "devDependencies": {
