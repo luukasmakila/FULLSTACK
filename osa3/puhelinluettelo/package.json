@@ -4,7 +4,7 @@
   "description": "\"\"",
   "main": "index.js",
   "scripts": {
-    "build:ui": "rm -rf build && cd C:/Users/luuka/Desktop/FULLSTACK/osa2/puhelinluettelo && npm run build && cp -r build C:/Users/luuka/Desktop/FULLSTACK/osa3/puhelinluettelo",
+    "build:ui": "cd C:/Users/luuka/Desktop/FULLSTACK/osa2/puhelinluettelo && npm run build",
     "deploy": "git push heroku main",
     "deploy:full": "npm run build:ui && git add . && git commit -m uibuild && git push && npm run deploy",
     "logs:prod": "heroku logs --tail",
@@ -19,6 +19,7 @@
   "license": "ISC",
   "dependencies": {
     "cors": "^2.8.5",
+    "dotenv": "^10.0.0",
     "express": "^4.17.2",
     "mongoose": "^6.1.4",
     "morgan": "^1.10.0"

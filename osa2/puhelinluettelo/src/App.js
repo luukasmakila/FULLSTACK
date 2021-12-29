@@ -7,47 +7,45 @@ import Notification from './components/Notification'
 import './index.css'
 
 const App = () => {
-  const [persons, setPersons] = useState([])
   const [newName, setNewName] = useState("")
   const [newNumber, setNewNumber] = useState("")
+  const [persons, setPersons] = useState([])
   const [filter, setFilter] = useState("")
   const [showAll, setShowAll] = useState(true)
   const [message, setMessage] = useState(null)
   const [error, setError] = useState("false")
 
   const personsToShow = showAll
-  ? persons
-  : persons.filter(person => person.name.toLocaleLowerCase().startsWith(filter.toLocaleLowerCase()) === true)
+    ? persons
+    : persons.filter(person => person.name.toLocaleLowerCase().startsWith(filter.toLocaleLowerCase()) === true)
 
   const hook = () => {
     numberService
     .getAll()
-    .then(numbers => {
-      setPersons(numbers)
+    .then(persons => {
+      setPersons(persons)
     })
   }
   useEffect(hook, [])
 
   const handleDelete = (event) => {
-    const id = parseInt(event.target.value)
-    const personToDelete = persons.filter(person => person.id === id)
-    const result = window.confirm(`Delete ${personToDelete[0].name} ?`)
+    const id = event.target.value
+    const person = persons.filter(person => person.id === id)
+    console.log(person[0].name)
 
-    if (result === true) {
-      numberService
-      .deleteNumber(id)
-      .then((deleted) => {
-        numberService
-        .getAll()
-        .then(numbers => {
-          setPersons(numbers)
-          setMessage(`${personToDelete[0].name} was deleted from the phonebook.`)
+    const result = window.confirm(`Do you want to delete ${person[0].name} from the phonebook?`)
+
+    if (result) {
+      numberService.deleteNumber(id)
+      .then(something => {
+        numberService.getAll()
+        .then(persons => {
+          setPersons(persons)
+          setMessage(`${person[0].name} was deleted from the phonebook!`)
           setTimeout(() => {
-            setMessage(null)
+          setMessage(null)
           }, 3000)
         })
-        setNewName("")
-        setNewNumber("")
       })
     }
   }
@@ -58,31 +56,25 @@ const App = () => {
       name: newName,
       number: newNumber
     }
+
     const exists = persons.map(person => person.name)
     if (exists.indexOf(newName) !== -1) {
-      const result = window.confirm(`${newName} is already added to the phonebook, replace old number with a new one?`)
-      if (result === true) {
-        const changingPerson = persons.filter(person => person.name === newName)
-        const id = changingPerson[0].id
-        const changedNumber = {...nameObject, number: newNumber}
+      const result = window.confirm(`${newName} is already in the phonebook, replca old number with a new one?`)
+      if (result) {
+        const changePerson = persons.filter(person => person.name === newName)
+        const id = changePerson[0].id
         numberService
-        .changeNumber(id, changedNumber)
+        .changeNumber(id, nameObject)
         .then(newData => {
+          console.log(newData)
           setPersons(persons.map(person => person.id !== id ? person : newData))
-          setMessage(`Changed ${changingPerson[0].name}'s number!`)
+          setMessage(`Changed ${changePerson[0].name}'s number!`)
+          setNewNumber("")
+          setNewName("")
           setTimeout(() => {
             setMessage(null)
           }, 3000)
         })
-        .catch(error => {
-          setMessage(`${changingPerson[0].name} has already been removed from server.`)
-          setError("true")
-          setTimeout(() => {
-            setMessage(null)
-          }, 3000)
-        })
-        setNewName("")
-        setNewNumber("")
       }
     }
     else {
@@ -90,6 +82,7 @@ const App = () => {
       .addNew(nameObject)
       .then(returnedObject => {
         console.log(returnedObject)
+        console.log("here")
         setPersons(persons.concat(returnedObject))
         setMessage(`Added ${returnedObject.name} to the phonebook!`)
         setTimeout(() => {
