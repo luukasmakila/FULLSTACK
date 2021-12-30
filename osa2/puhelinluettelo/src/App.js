@@ -41,6 +41,7 @@ const App = () => {
         numberService.getAll()
         .then(persons => {
           setPersons(persons)
+          setError("false")
           setMessage(`${person[0].name} was deleted from the phonebook!`)
           setTimeout(() => {
           setMessage(null)
@@ -68,13 +69,21 @@ const App = () => {
         .then(newData => {
           console.log(newData)
           setPersons(persons.map(person => person.id !== id ? person : newData))
+          setError("false")
           setMessage(`Changed ${changePerson[0].name}'s number!`)
-          setNewNumber("")
-          setNewName("")
           setTimeout(() => {
             setMessage(null)
           }, 3000)
         })
+        .catch(error => {
+          setError("true")
+          setMessage(`${error.message.data}`)
+          setTimeout(() => {
+            setMessage(null)
+          }, 3000)
+        })
+        setNewName("")
+        setNewNumber("")
       }
     }
     else {
@@ -84,7 +93,16 @@ const App = () => {
         console.log(returnedObject)
         console.log("here")
         setPersons(persons.concat(returnedObject))
+        setError("false")
         setMessage(`Added ${returnedObject.name} to the phonebook!`)
+        setTimeout(() => {
+          setMessage(null)
+        }, 3000)
+      })
+      .catch(error => {
+        setError("true")
+        console.log(error.response.data)
+        setMessage(`${error.response.data.error}`)
         setTimeout(() => {
           setMessage(null)
         }, 3000)
