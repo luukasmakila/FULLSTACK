@@ -1,4 +1,4 @@
-require('dotenv').config()
+require("dotenv").config()
 const express = require("express")
 const morgan = require("morgan")
 const cors = require("cors")
@@ -6,7 +6,7 @@ const Person = require("./models/person")
 const app = express()
 
 app.use(express.json())
-app.use(express.static('build'))
+app.use(express.static("build"))
 
 morgan.token("data", (req,res) => JSON.stringify(req.body))
 app.use(morgan(":method :url :status :res[content-length] - :response-time ms :data"))
@@ -18,29 +18,29 @@ app.get("/api/persons", (req, res) => {
     })
 })
 
-app.get("/api/persons/:id", (req, res) => {
+app.get("/api/persons/:id", (req, res, next) => {
     Person.findById(req.params.id)
-    .then(person => {
-        if (person) {
-            res.json(person)
-        } else {
-            res.status(404).end()
-        }
-    })
-    .catch(error => next(error))
+        .then(person => {
+            if (person) {
+                res.json(person)
+            } else {
+                res.status(404).end()
+            }
+        })
+        .catch(error => next(error))
 })
 
 app.get("/info", (req, res) => {
     const date = new Date()
     Person.find({})
-    .then(persons => {
-        res.send(`<p>
-        Phonebook has info for ${persons.length} people
-        </p>
-        <p>
-        ${date}
-        </p>`)
-    })
+        .then(persons => {
+            res.send(`<p>
+            Phonebook has info for ${persons.length} people
+            </p>
+            <p>
+            ${date}
+            </p>`)
+        })
 })
 
 app.post("/api/persons", (req, res, next) => {
@@ -56,7 +56,7 @@ app.post("/api/persons", (req, res, next) => {
     person.save().then(savedPerson => {
         res.json(savedPerson)
     })
-    .catch(error => next(error))
+        .catch(error => next(error))
 })
 
 app.put("/api/persons/:id", (req, res, next) => {
@@ -76,10 +76,10 @@ app.put("/api/persons/:id", (req, res, next) => {
 
 app.delete("/api/persons/:id", (req, res, next) => {
     Person.findByIdAndDelete(req.params.id)
-    .then(result => {
-        res.status(204).end()
-    })
-    .catch(error => next(error))
+        .then(result => {
+            res.status(204).end()
+        })
+        .catch(error => next(error))
 })
 
 const unknownEndpoint = (req, res) => {

@@ -10,7 +10,8 @@
     "logs:prod": "heroku logs --tail",
     "start": "node index.js",
     "test": "\"\"",
-    "dev": "nodemon index.js"
+    "dev": "nodemon index.js",
+    "lint": "eslint ."
   },
   "keywords": [
     "\"\""
@@ -26,6 +27,7 @@
     "morgan": "^1.10.0"
   },
   "devDependencies": {
+    "eslint": "^8.5.0",
     "nodemon": "^2.0.15"
   }
 }
