@@ -69,7 +69,6 @@ describe('total likes', () => {
 describe('favorite blog', () => {
     test('Favorite blog out of all the blogs is', () => {
         const result = listHelper.favoriteBlog(blogs)
-        console.log(result)
         expect(result).toEqual({
             _id: "5a422b3a1b54a676234d17f9",
             title: "Canonical string reduction",
