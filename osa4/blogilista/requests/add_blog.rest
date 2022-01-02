@@ -1,9 +1,11 @@
 POST http://localhost:3003/api/blogs
 Content-Type: application/json
+Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6IkxURCIsImlkIjoiNjFkMjBhMzc2MjQzZWExMTZkNjkzNzE2IiwiaWF0IjoxNjQxMTU3MzIzfQ.SaKemWNt1buFY0ZH9mKLF2n4xcCz4PA2F3PZaTYWxLE
 
 {
-    "title": "testingggggg3",
+    "title": "testing",
     "author": "luke",
-    "url": "testetetet.com",
-    "likes": null
+    "url": "tests.com",
+    "likes": 21,
+    "user": "61d20a376243ea116d693716"
 }
