@@ -1,7 +1,7 @@
 import React, {useState, useEffect} from 'react'
 import blogServices from '../services/blogs'
 
-const Blog = () => {
+const Blog = ({setError, setMessage}) => {
   const [blogs, setBlogs] = useState([])
   const [title, setTitle] = useState('')
   const [author, setAuthor] = useState('')
@@ -28,8 +28,17 @@ const Blog = () => {
       setTitle('')
       setAuthor('')
       setUrl('')
+      setError(false)
+      setMessage('Blog added!')
+      setTimeout(() => {
+        setMessage(null)
+      }, 5000)
     } catch (error) {
-      console.log(error)
+      setError(true)
+      setMessage(error.response.data.error)
+      setTimeout(() => {
+        setMessage(null)
+      }, 5000)
     }
   }
 
@@ -70,7 +79,7 @@ const Blog = () => {
         <button type='submit'>create</button>
       </form>
       {blogs.map(blog => 
-          <p>{blog.title}</p>
+          <p key={blog.title}>{blog.title}</p>
         )}
     </div>  
   )
