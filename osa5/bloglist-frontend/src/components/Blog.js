@@ -1,21 +1,6 @@
-import React, {useState, useEffect} from 'react'
 import blogServices from '../services/blogs'
 
-const Blog = ({setError, setMessage}) => {
-  const [blogs, setBlogs] = useState([])
-  const [title, setTitle] = useState('')
-  const [author, setAuthor] = useState('')
-  const [url, setUrl] = useState('')
-
-  useEffect(() => {
-    const fetchData = () => {
-      blogServices.getAll().then(blogs =>
-        setBlogs( blogs )
-      )
-    }
-    fetchData()  
-  }, [])
-
+const Blog = ({setError, setMessage, blogs, setBlogs, title, setTitle, author, setAuthor, url, setUrl}) => {
   const handleNewBlog = async (e) => {
     e.preventDefault()
 
@@ -78,9 +63,6 @@ const Blog = ({setError, setMessage}) => {
         <br/>
         <button type='submit'>create</button>
       </form>
-      {blogs.map(blog => 
-          <p key={blog.title}>{blog.title}</p>
-        )}
     </div>  
   )
 }

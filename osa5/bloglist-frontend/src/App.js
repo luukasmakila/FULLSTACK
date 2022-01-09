@@ -1,13 +1,20 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import Blog from './components/Blog'
 import Notification from './components/Notification'
+import LoginFrom from './components/LoginFrom'
 import loginService from './services/login'
+import blogServices from './services/blogs'
 import './Index.css'
+import Togglable from './components/Togglable'
 
 const App = () => {
   const [user, setUser] = useState('')
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
+  const [blogs, setBlogs] = useState([])
+  const [title, setTitle] = useState('')
+  const [author, setAuthor] = useState('')
+  const [url, setUrl] = useState('')
   const [message, setMessage] = useState(null)
   const [error, setError] = useState(false)
 
@@ -43,32 +50,53 @@ const App = () => {
     }
   }
 
+  useEffect(() => {
+    const fetchData = () => {
+      blogServices.getAll().then(blogs =>
+        setBlogs( blogs )
+      )
+    }
+    fetchData()  
+  }, [])
+
   const loginForm = () => {
     return (
       <div>
-        <form onSubmit={handleLogin}>
-          <label htmlFor='username'>username</label>
-          <input 
-            type='text' 
-            id='username' 
-            name='username' 
-            value={username} 
-            placeholder='enter username'
-            onChange={({ target }) => setUsername(target.value)}
+        <Togglable buttonLabel='login'>
+          <LoginFrom
+              username={username}
+              password={password}
+              setUsername={setUsername}
+              setPassword={setPassword}
+              handleLogin={handleLogin}
           />
-          <br/>
-          <label htmlFor='password'>password</label>
-          <input 
-            type='password' 
-            id='password' 
-            name='password' 
-            value={password} 
-            placeholder='enter password'
-            onChange={({ target }) => setPassword(target.value)}
+        </Togglable>
+      </div>
+    )
+  }
+
+  const blogForm = () => {
+    return (
+      <div>
+        <Togglable buttonLabel='Blog Form'>
+          <Blog 
+            setError={setError} 
+            setMessage={setMessage} 
+            blogs={blogs} 
+            setBlogs={setBlogs} 
+            title={title} 
+            setTitle={setTitle} 
+            author={author} 
+            setAuthor={setAuthor}
+            url={url}
+            setUrl={setUrl}
           />
-          <br/>
-          <button type='submit'>Login</button>
-        </form>
+        </Togglable>
+        {blogs.map(blog => 
+          <p key={blog.title}>
+            <p>{blog.title}</p>
+          </p>
+        )}
       </div>
     )
   }
@@ -84,7 +112,7 @@ const App = () => {
         <div>
           <h2>blogs</h2>
           <p>logged in as {localStorage.getItem('username')} <button onClick={handleLogout}>logout</button></p>
-          <Blog setError={setError} setMessage={setMessage}/>
+          {blogForm()}
         </div>
       }
     </div>
