@@ -58,7 +58,9 @@ const App = () => {
       )
     }
     fetchData()  
-  }, [blogs])
+  }, [])
+  
+  blogs.sort((a,b) => (a.likes < b.likes) ? 1 : -1)
 
   const loginForm = () => {
     return (

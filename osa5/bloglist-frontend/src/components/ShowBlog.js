@@ -38,6 +38,7 @@ const ShowBlog = ({blog, setMessage, setError, blogs, setBlogs}) => {
           <p>{blog.title} <button onClick={() => setBlogVisible(true)}>view</button></p>
         </div>
         <div style={showWhenVisible}>
+          <h4>{blog.title}</h4>
           <p>{blog.url}</p>
           <p>{likes} <button onClick={handleLike}>like</button></p>
           <p>{blog.author}</p>
