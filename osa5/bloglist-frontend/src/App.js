@@ -6,6 +6,7 @@ import loginService from './services/login'
 import blogServices from './services/blogs'
 import './Index.css'
 import Togglable from './components/Togglable'
+import ShowBlog from './components/ShowBlog'
 
 const App = () => {
   const [user, setUser] = useState('')
@@ -57,7 +58,7 @@ const App = () => {
       )
     }
     fetchData()  
-  }, [])
+  }, [blogs])
 
   const loginForm = () => {
     return (
@@ -76,6 +77,7 @@ const App = () => {
   }
 
   const blogForm = () => {
+
     return (
       <div>
         <Togglable buttonLabel='Blog Form'>
@@ -93,9 +95,9 @@ const App = () => {
           />
         </Togglable>
         {blogs.map(blog => 
-          <p key={blog.title}>
-            <p>{blog.title}</p>
-          </p>
+          <div key={blog.title}>
+            <ShowBlog blog={blog} setMessage={setMessage} setError={setError} blogs={blogs} setBlogs={setBlogs}/>
+          </div>
         )}
       </div>
     )
