@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import blogServices from '../services/blogs'
 import PropTypes from 'prop-types'
 
-const ShowBlog = ({ blog, setMessage, setError, blogs, setBlogs }) => {
+const ShowBlog = ({ blog, setMessage, setError, setBlogs, blogs }) => {
   const [blogVisible, setBlogVisible] = useState(false)
   const [likes, setLikes] = useState(blog.likes)
   const hideWhenVisible = { display: blogVisible ? 'none' : '' }
@@ -58,7 +58,7 @@ const ShowBlog = ({ blog, setMessage, setError, blogs, setBlogs }) => {
     <div>
       <div>
         <div style={ hideWhenVisible }>
-          <p>{ blog.title } <button onClick={ () => setBlogVisible(true) }>view</button></p>
+          <p>{ blog.title } { blog.author }<button onClick={ () => setBlogVisible(true) }>view</button></p>
         </div>
         <div style={showWhenVisible}>
           <h4>{ blog.title } <button onClick={ () => setBlogVisible(false) }>hide</button></h4>
@@ -72,12 +72,12 @@ const ShowBlog = ({ blog, setMessage, setError, blogs, setBlogs }) => {
   )
 }
 
-ShowBlog.propTypes = {
-  blog: PropTypes.object.isRequired,
-  setMessage: PropTypes.func.isRequired,
-  setError: PropTypes.func.isRequired,
-  blogs: PropTypes.array.isRequired,
-  setBlogs: PropTypes.func.isRequired
-}
+//ShowBlog.propTypes = {
+  //blog: PropTypes.object.isRequired,
+  //setMessage: PropTypes.func.isRequired,
+  //setError: PropTypes.func.isRequired,
+  //blogs: PropTypes.array.isRequired,
+  //setBlogs: PropTypes.func.isRequired
+//}
 
 export default ShowBlog

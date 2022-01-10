@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import Blog from './components/Blog'
+import BlogForm from './components/BlogForm'
 import Notification from './components/Notification'
 import LoginFrom from './components/LoginFrom'
 import loginService from './services/login'
@@ -83,7 +83,7 @@ const App = () => {
     return (
       <div>
         <Togglable buttonLabel='Blog Form'>
-          <Blog
+          <BlogForm
             setError={setError}
             setMessage={setMessage}
             blogs={blogs}
