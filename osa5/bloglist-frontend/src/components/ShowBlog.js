@@ -8,6 +8,7 @@ const ShowBlog = ({blog, setMessage, setError, blogs, setBlogs}) => {
   const showWhenVisible = { display: blogVisible ? '' : 'none' }
 
   const handleLike = async () => {
+    setLikes(likes+1)
     const updatedBlog = {
       title: blog.title,
       author: blog.author,
@@ -19,10 +20,11 @@ const ShowBlog = ({blog, setMessage, setError, blogs, setBlogs}) => {
 
     try {
       const response = await blogServices.addLike(updatedBlog)
-      console.log(likes)
-      setLikes(likes+1)
       setMessage('liked')
       setError(false)
+      setTimeout(() => {
+        setMessage(null)
+      }, 5000)
     } catch (error) {
       setError(true)
       setMessage(error.response.data.error)
@@ -31,6 +33,25 @@ const ShowBlog = ({blog, setMessage, setError, blogs, setBlogs}) => {
       }, 5000)
     }
   }
+
+  const handleDelete = async () => {
+    const blogToDelete = blog.id
+
+    try {
+      const response = await blogServices.deleteBlog(blogToDelete)
+      console.log(blogs)
+      const newBlogs = blogs.filter((blog) => blog.id !== blogToDelete)
+      setBlogs(newBlogs)
+      setError(false)
+      setMessage('blog deleted')
+      setTimeout(() => {
+        setMessage(null)
+      }, 5000)
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
   return (
     <div>
       <div>
@@ -38,11 +59,11 @@ const ShowBlog = ({blog, setMessage, setError, blogs, setBlogs}) => {
           <p>{blog.title} <button onClick={() => setBlogVisible(true)}>view</button></p>
         </div>
         <div style={showWhenVisible}>
-          <h4>{blog.title}</h4>
+          <h4>{blog.title} <button onClick={() => setBlogVisible(false)}>hide</button></h4>
           <p>{blog.url}</p>
           <p>{likes} <button onClick={handleLike}>like</button></p>
           <p>{blog.author}</p>
-          <button onClick={() => setBlogVisible(false)}>cancel</button>
+          <button onClick={handleDelete}>delete blog</button>
         </div>
       </div>
     </div>
