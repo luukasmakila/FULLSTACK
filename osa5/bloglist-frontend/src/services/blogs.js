@@ -25,7 +25,7 @@ const addLike = async blogInfo => {
 const deleteBlog = async blogId => {
   console.log(blogId)
   const url = `${baseUrl}/${blogId}`
-  const response = await axios.delete(url, config)
+  await axios.delete(url, config)
 }
 
 const exportedObject = {

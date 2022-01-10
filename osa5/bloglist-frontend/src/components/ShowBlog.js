@@ -8,18 +8,19 @@ const ShowBlog = ({blog, setMessage, setError, blogs, setBlogs}) => {
   const showWhenVisible = { display: blogVisible ? '' : 'none' }
 
   const handleLike = async () => {
-    setLikes(likes+1)
+    const newlikes = likes+1
     const updatedBlog = {
       title: blog.title,
       author: blog.author,
       url: blog.url,
-      likes: likes,
+      likes: newlikes,
       user: blog.user,
       id: blog.id
     }
 
     try {
-      const response = await blogServices.addLike(updatedBlog)
+      await blogServices.addLike(updatedBlog)
+      setLikes(newlikes)
       setMessage('liked')
       setError(false)
       setTimeout(() => {
@@ -38,7 +39,7 @@ const ShowBlog = ({blog, setMessage, setError, blogs, setBlogs}) => {
     const blogToDelete = blog.id
 
     try {
-      const response = await blogServices.deleteBlog(blogToDelete)
+      await blogServices.deleteBlog(blogToDelete)
       console.log(blogs)
       const newBlogs = blogs.filter((blog) => blog.id !== blogToDelete)
       setBlogs(newBlogs)
