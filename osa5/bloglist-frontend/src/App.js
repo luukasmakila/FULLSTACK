@@ -21,17 +21,17 @@ const App = () => {
 
   const handleLogout = () => {
     localStorage.clear()
+    console.log(user)
     setUser(null)
   }
 
   const handleLogin = async (e) => {
     e.preventDefault()
-    
+
     try {
       const user = await loginService.login({
         username, password
       })
-      console.log(user)
       setUser(user)
       window.localStorage.setItem('authToken', user.token)
       window.localStorage.setItem('username', user.username)
@@ -57,9 +57,9 @@ const App = () => {
         setBlogs( blogs )
       )
     }
-    fetchData()  
+    fetchData()
   }, [])
-  
+
   blogs.sort((a,b) => (a.likes < b.likes) ? 1 : -1)
 
   const loginForm = () => {
@@ -67,11 +67,11 @@ const App = () => {
       <div>
         <Togglable buttonLabel='login'>
           <LoginFrom
-              username={username}
-              password={password}
-              setUsername={setUsername}
-              setPassword={setPassword}
-              handleLogin={handleLogin}
+            username={username}
+            password={password}
+            setUsername={setUsername}
+            setPassword={setPassword}
+            handleLogin={handleLogin}
           />
         </Togglable>
       </div>
@@ -83,20 +83,20 @@ const App = () => {
     return (
       <div>
         <Togglable buttonLabel='Blog Form'>
-          <Blog 
-            setError={setError} 
-            setMessage={setMessage} 
-            blogs={blogs} 
-            setBlogs={setBlogs} 
-            title={title} 
-            setTitle={setTitle} 
-            author={author} 
+          <Blog
+            setError={setError}
+            setMessage={setMessage}
+            blogs={blogs}
+            setBlogs={setBlogs}
+            title={title}
+            setTitle={setTitle}
+            author={author}
             setAuthor={setAuthor}
             url={url}
             setUrl={setUrl}
           />
         </Togglable>
-        {blogs.map(blog => 
+        {blogs.map(blog =>
           <div key={blog.title}>
             <ShowBlog blog={blog} setMessage={setMessage} setError={setError} blogs={blogs} setBlogs={setBlogs}/>
           </div>
