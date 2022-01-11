@@ -44,5 +44,57 @@ describe('Blog ', function() {
       })
       cy.contains('test')
     })
+
+    it('Blog can be liked', function() {
+      cy.createBlog({
+        title: "test",
+        author: "cypress",
+        url: "testing.com"
+      })
+
+      cy.contains('view').click()
+      cy.contains('like').click()
+      cy.contains('1')
+    })
+
+    it('blog can be deleted', function() {
+      cy.createBlog({
+        title: "test",
+        author: "cypress",
+        url: "testing.com"
+      })
+      cy.contains('view').click()
+      cy.contains('delete blog').click()
+      cy.get('html').should('not contain', 'test')
+    })
+
+    it('blogs are in liked order', function() {
+      cy.createBlog({
+        title: "test",
+        author: "cypress",
+        url: "testing.com",
+        likes: 10
+      })
+      cy.createBlog({
+        title: "test2",
+        author: "cypress2",
+        url: "testing.com2",
+        likes: 4
+      })
+      cy.createBlog({
+        title: "test3",
+        author: "cypress3",
+        url: "testing.com3",
+        likes: 27
+      })
+      cy.createBlog({
+        title: "test4",
+        author: "cypress4",
+        url: "testing.com4",
+        likes: 1
+      })
+      cy.get('#view').click()
+      cy.contains('27')
+    })
   })
 })

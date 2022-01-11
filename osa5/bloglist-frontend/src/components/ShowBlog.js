@@ -51,7 +51,7 @@ const ShowBlog = ({ blog, setBlogs, blogs }) => {
     <div>
       <div>
         <div style={ hideWhenVisible }>
-          <p>{ blog.title } { blog.author }<button onClick={handleClick}>view</button></p>
+          <p>{ blog.title } { blog.author }<button id='view' onClick={handleClick}>view</button></p>
         </div>
         <div style={showWhenVisible}>
           <h4>{ blog.title } <button onClick={handleClick}>hide</button></h4>
