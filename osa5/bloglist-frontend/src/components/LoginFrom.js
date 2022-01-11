@@ -26,7 +26,7 @@ const LoginForm = ({ username, password, setUsername, setPassword, handleLogin }
           onChange={({ target }) => setPassword(target.value)}
         />
         <br/>
-        <button type='submit'>login</button>
+        <button id='login-button' type='submit'>login</button>
       </form>
     </div>
   )

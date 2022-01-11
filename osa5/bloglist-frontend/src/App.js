@@ -34,7 +34,7 @@ const App = () => {
       })
       setUser(user)
       window.localStorage.setItem('authToken', user.token)
-      window.localStorage.setItem('username', user.username)
+      console.log(localStorage.getItem('authToken'))
       setUsername('')
       setPassword('')
       setMessage('Logged in!')
