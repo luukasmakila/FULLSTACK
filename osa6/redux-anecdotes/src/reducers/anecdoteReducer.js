@@ -46,4 +46,10 @@ export const addVote = (id) => {
   }
 }
 
+export const addAnecdote = (content) => {
+  return {
+    type: 'ADD',
+    data: content
+  }
+}
 export default reducer
