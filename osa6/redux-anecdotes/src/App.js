@@ -10,8 +10,14 @@ const App = () => {
     dispatch(addVote(id))
   }
 
+  const addNew = (event) => {
+    event.preventDefault()
+    const content = event.target.anecdote.value
+    event.target.anecdote.value = ''
+    dispatch({type: 'ADD', data: content})
+  }
+
   anecdotes.sort((a,b) => (a.votes > b.votes) ? -1 : 1)
-  console.log(anecdotes)
 
   return (
     <div>
@@ -28,9 +34,9 @@ const App = () => {
         </div>
       )}
       <h2>create new</h2>
-      <form>
-        <div><input /></div>
-        <button>create</button>
+      <form onSubmit={addNew}>
+        <div><input name='anecdote'/></div>
+        <button type='submit'>create</button>
       </form>
     </div>
   )

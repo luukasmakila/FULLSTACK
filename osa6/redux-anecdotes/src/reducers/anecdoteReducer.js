@@ -20,8 +20,8 @@ const asObject = (anecdote) => {
 const initialState = anecdotesAtStart.map(asObject)
 
 const reducer = (state = initialState, action) => {
-  //console.log('state now: ', state)
-  //console.log('action', action.data)
+  console.log('state now: ', state)
+  console.log('action', action.data)
 
   let newState = [...state]
   switch(action.type){
@@ -29,6 +29,10 @@ const reducer = (state = initialState, action) => {
       const anecdoteIdx = newState.findIndex((anecdote => anecdote.id === action.data))
       newState[anecdoteIdx].votes = newState[anecdoteIdx].votes + 1
       return newState
+    case 'ADD':
+      console.log(action.data)
+      const anecdote = asObject(action.data)
+      return newState.concat(anecdote)
     default:
       return state
   }
