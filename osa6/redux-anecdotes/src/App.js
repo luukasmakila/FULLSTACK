@@ -1,16 +1,17 @@
 import React from 'react'
 import { useSelector, useDispatch } from 'react-redux'
+import { addVote } from './reducers/anecdoteReducer'
 
 const App = () => {
   const anecdotes = useSelector(state => state)
   const dispatch = useDispatch()
 
   const vote = (id) => {
-    console.log('vote', id)
-    dispatch({type: 'VOTE', data: id})
+    dispatch(addVote(id))
   }
 
   anecdotes.sort((a,b) => (a.votes > b.votes) ? -1 : 1)
+  console.log(anecdotes)
 
   return (
     <div>
