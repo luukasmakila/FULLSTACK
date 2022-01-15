@@ -7,7 +7,10 @@ const App = () => {
 
   const vote = (id) => {
     console.log('vote', id)
+    dispatch({type: 'VOTE', data: id})
   }
+
+  anecdotes.sort((a,b) => (a.votes > b.votes) ? -1 : 1)
 
   return (
     <div>
