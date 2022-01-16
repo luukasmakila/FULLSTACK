@@ -9,8 +9,11 @@ const Notification = () => {
     borderWidth: 1
   }
   return (
-    <div style={style}>
-      {notification.message}
+    <div>
+      {notification.message === '' 
+        ? <div></div>
+        : <div style={style}>{notification.message}</div>
+      }
     </div>
   )
 }
