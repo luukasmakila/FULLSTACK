@@ -15,6 +15,7 @@ export const store = createStore(combineReducers(
   composeWithDevTools()
 )
 
+//initializing state
 anecdoteService.getAll().then(anecdotes => {
   store.dispatch(initializeAnecdotes(anecdotes))
 })
