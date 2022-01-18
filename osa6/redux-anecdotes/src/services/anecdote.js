@@ -9,7 +9,7 @@ const getAll = async () => {
 
 const addNew = async (anecdote) => {
   const response = await axios.post(baseUrl, anecdote)
-  return response
+  return anecdote
 }
 
 export default { getAll, addNew }
