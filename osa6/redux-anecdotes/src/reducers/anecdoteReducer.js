@@ -14,14 +14,9 @@ const anecdoteReducer = (state = [], action) => {
   let newState = [...state]
   switch(action.type){
     case 'VOTE':
-      const anecdoteIdx = newState.findIndex((anecdote => anecdote.id === action.data))
-      newState[anecdoteIdx].votes = newState[anecdoteIdx].votes + 1
-      const anecdoteVoted = newState[anecdoteIdx]
-      anecdoteService.addVote(anecdoteVoted)
       return newState
     case 'ADD':
       const anecdote = asObject(action.data)
-      anecdoteService.addNew(anecdote)
       return newState.concat(anecdote)
     case 'INIT_ANECDOTES':
       return action.data
@@ -31,10 +26,13 @@ const anecdoteReducer = (state = [], action) => {
 }
 
 //action creators
-export const addVote = (id) => {
-  return {
-    type: 'VOTE', 
-    data: id
+export const addVote = (anecdote) => {
+  return async dispatch => {
+    anecdoteService.addVote(anecdote)
+    dispatch({
+      type: 'VOTE',
+      data: anecdote
+    })
   }
 }
 

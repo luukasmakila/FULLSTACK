@@ -29,7 +29,10 @@ const AnecdoteList = () => {
   })
 
   const vote = (id, content) => {
-    dispatch(addVote(id))
+    const anecdoteIdx = anecdotes.findIndex((anecdote => anecdote.id === id))
+    anecdotes[anecdoteIdx].votes = anecdotes[anecdoteIdx].votes + 1
+    const anecdoteVoted = anecdotes[anecdoteIdx]
+    dispatch(addVote(anecdoteVoted))
     dispatch(setNotification(`you voted '${content}'`))
     setTimeout(() => {
       dispatch(deleteNotification(''))
