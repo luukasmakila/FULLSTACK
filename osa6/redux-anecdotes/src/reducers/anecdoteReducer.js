@@ -16,6 +16,8 @@ const anecdoteReducer = (state = [], action) => {
     case 'VOTE':
       const anecdoteIdx = newState.findIndex((anecdote => anecdote.id === action.data))
       newState[anecdoteIdx].votes = newState[anecdoteIdx].votes + 1
+      const anecdoteVoted = newState[anecdoteIdx]
+      anecdoteService.addVote(anecdoteVoted)
       return newState
     case 'ADD':
       const anecdote = asObject(action.data)
