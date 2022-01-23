@@ -1,4 +1,4 @@
-const notificationReducer = (state = {message: ''}, action) => {
+const notificationReducer = (state = {message: null}, action) => {
   switch(action.type){
     case 'SET_NOTIFICATION':
       return state = {...state, message: action.data}
@@ -17,7 +17,7 @@ export const setNotification = (message) => {
       data: message
     })
     setTimeout(() => {
-      dispatch(deleteNotification(''))
+      dispatch(deleteNotification(null))
     }, 5000)
   }
 }
@@ -25,7 +25,7 @@ export const setNotification = (message) => {
 export const deleteNotification = (message) => {
   return {
     type: 'DELETE_NOTIFICATION',
-    data: ''
+    data: null
   }
 }
 
