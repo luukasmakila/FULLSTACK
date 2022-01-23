@@ -10,7 +10,7 @@ const notificationReducer = (state = {message: null}, action) => {
 }
 
 //action creators
-export const setNotification = (message) => {
+export const setNotification = (message, time) => {
   return async dispatch  => {
     dispatch({
       type: 'SET_NOTIFICATION',
@@ -18,7 +18,7 @@ export const setNotification = (message) => {
     })
     setTimeout(() => {
       dispatch(deleteNotification(null))
-    }, 5000)
+    }, time*1000)
   }
 }
 

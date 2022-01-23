@@ -28,19 +28,18 @@ const AnecdoteList = () => {
     }
   })
 
-  const vote = (id, content) => {
-    const anecdoteIdx = anecdotes.findIndex((anecdote => anecdote.id === id))
+  const vote = (anecdoteVoted) => {
+    const anecdoteIdx = anecdotes.findIndex((anecdote => anecdote.id === anecdoteVoted.id))
     anecdotes[anecdoteIdx].votes = anecdotes[anecdoteIdx].votes + 1
-    const anecdoteVoted = anecdotes[anecdoteIdx]
     dispatch(addVote(anecdoteVoted))
-    dispatch(setNotification(`you voted '${content}'`))
+    dispatch(setNotification(`you voted '${anecdoteVoted.content}'`, 5))
   }
 
   anecdotes.sort((a,b) => (a.votes > b.votes) ? -1 : 1)
   return (
     <div>
       {anecdotes.map(anecdote =>
-        <Anecdote key={anecdote.id} anecdote={anecdote} handleClick={() => vote(anecdote.id, anecdote.content)} />
+        <Anecdote key={anecdote.id} anecdote={anecdote} handleClick={() => vote(anecdote)} />
       )}
     </div>
   )
