@@ -16,7 +16,7 @@ const anecdoteReducer = (state = [], action) => {
     case 'VOTE':
       return newState
     case 'ADD':
-      const anecdote = asObject(action.data)
+      const anecdote = action.data
       return newState.concat(anecdote)
     case 'INIT_ANECDOTES':
       return action.data
@@ -38,8 +38,7 @@ export const addVote = (anecdote) => {
 
 export const addAnecdote = (content) => {
   return async dispatch => {
-    const newAnecdote = await anecdoteService.addNew(content)
-    console.log(newAnecdote)
+    const newAnecdote = await anecdoteService.addNew(asObject(content))
     dispatch({
       type: 'ADD',
       data: newAnecdote
@@ -50,7 +49,6 @@ export const addAnecdote = (content) => {
 export const initializeAnecdotes = () => {
   return async dispatch => {
     const anecdotes = await anecdoteService.getAll()
-    console.log(anecdotes)
     dispatch({
       type: 'INIT_ANECDOTES',
       data: anecdotes
