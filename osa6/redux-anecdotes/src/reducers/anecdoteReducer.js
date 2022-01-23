@@ -21,7 +21,7 @@ const anecdoteReducer = (state = [], action) => {
     case 'INIT_ANECDOTES':
       return action.data
     default:
-      return state
+      return newState
   }
 }
 

@@ -11,9 +11,14 @@ const notificationReducer = (state = {message: ''}, action) => {
 
 //action creators
 export const setNotification = (message) => {
-  return {
-    type: 'SET_NOTIFICATION',
-    data: message
+  return async dispatch  => {
+    dispatch({
+      type: 'SET_NOTIFICATION',
+      data: message
+    })
+    setTimeout(() => {
+      dispatch(deleteNotification(''))
+    }, 5000)
   }
 }
 
