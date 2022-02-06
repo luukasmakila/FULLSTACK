@@ -8,12 +8,14 @@ import blogService from './services/blogs'
 import loginService from './services/login'
 import storage from './utils/storage'
 
-const App = () => {
+import { setNotification } from './reducers/NotificationReducer'
+import { connect } from 'react-redux'
+
+const App = (props) => {
   const [blogs, setBlogs] = useState([])
   const [user, setUser] = useState(null)
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
-  const [notification, setNotification] = useState(null)
 
   const blogFormRef = React.createRef()
 
@@ -29,12 +31,7 @@ const App = () => {
   }, [])
 
   const notifyWith = (message, type='success') => {
-    setNotification({
-      message, type
-    })
-    setTimeout(() => {
-      setNotification(null)
-    }, 5000)
+    props.setNotification(message, type, 5)
   }
 
   const handleLogin = async (event) => {
@@ -91,7 +88,7 @@ const App = () => {
       <div>
         <h2>login to application</h2>
 
-        <Notification notification={notification} />
+        <Notification/>
 
         <form onSubmit={handleLogin}>
           <div>
@@ -122,7 +119,7 @@ const App = () => {
     <div>
       <h2>blogs</h2>
 
-      <Notification notification={notification} />
+      <Notification/>
 
       <p>
         {user.name} logged in <button onClick={handleLogout}>logout</button>
@@ -145,4 +142,9 @@ const App = () => {
   )
 }
 
-export default App
+const mapDispatchToProps = {
+  setNotification
+}
+
+const ConnectedApp = connect(null, mapDispatchToProps)(App)
+export default ConnectedApp
