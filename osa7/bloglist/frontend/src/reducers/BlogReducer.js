@@ -6,12 +6,14 @@ const blogReducer = (state = [], action) => {
       return action.data
     case 'ADD':
       const blog = action.data
-      console.log(blog)
       return [...state, blog]
     case 'LIKE':
+      const updatedBlog = action.data
+      const blogIdx = state.findIndex(b => b.id === updatedBlog.id)
+      state[blogIdx] = updatedBlog
       return [...state]
     case 'DELETE':
-      return [...state]
+      return action.data
     default:
       return [...state]
   }
@@ -41,10 +43,10 @@ export const deleteBlog = (id) => {
 
 export const likeBlog = (blog) => {
   return async dispatch => {
-    await blogService.update(blog)
+    const updatedBlog = await blogService.update(blog)
     dispatch({
       type: 'LIKE',
-      data: blog
+      data: updatedBlog
     })
   }
 }

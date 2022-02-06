@@ -8,26 +8,25 @@ import loginService from './services/login'
 import storage from './utils/storage'
 
 import { setNotification } from './reducers/NotificationReducer'
-import { connect, useDispatch } from 'react-redux'
+import { connect, useSelector } from 'react-redux'
 
 import { addBlog, deleteBlog, initialBlogs, likeBlog } from './reducers/BlogReducer'
+import { setUser, getUser, removeUser } from './reducers/UserReducer'
 
 const App = (props) => {
-  const dispatch = useDispatch()
-  const blogs = props.blogs
-  const [user, setUser] = useState(null)
+  const blogs = useSelector((state) => state.blogs)
+  const user = useSelector((state) => state.user)
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
 
   const blogFormRef = React.createRef()
 
   useEffect(() => {
-    dispatch(initialBlogs())
-  }, [dispatch, blogs])
+    props.initialBlogs()
+  }, [])
 
   useEffect(() => {
-    const user = storage.loadUser()
-    setUser(user)
+    props.getUser()
   }, [])
 
   const notifyWith = (message, type='success') => {
@@ -43,9 +42,8 @@ const App = (props) => {
 
       setUsername('')
       setPassword('')
-      setUser(user)
+      props.setUser(user)
       notifyWith(`${user.name} welcome back!`)
-      storage.saveUser(user)
     } catch(exception) {
       notifyWith('wrong username/password', 'error')
     }
@@ -54,7 +52,7 @@ const App = (props) => {
   const createBlog = async (blog) => {
     try {
       blogFormRef.current.toggleVisibility()
-      dispatch(addBlog(blog))
+      props.addBlog(blog)
       notifyWith(`a new blog '${blog.title}' by ${blog.author} added!`)
     } catch(exception) {
       console.log(exception)
@@ -62,9 +60,9 @@ const App = (props) => {
   }
 
   const handleLike = async (id) => {
-    const blogToLike = props.blogs.find(b => b.id === id)
+    const blogToLike = blogs.find(b => b.id === id)
     const likedBlog = { ...blogToLike, likes: blogToLike.likes + 1, user: blogToLike.user.id }
-    dispatch(likeBlog(likedBlog))
+    props.likeBlog(likedBlog)
     notifyWith(`Liked ${likedBlog.title}`)
   }
 
@@ -72,14 +70,13 @@ const App = (props) => {
     const blogToRemove = blogs.find(b => b.id === id)
     const ok = window.confirm(`Remove blog ${blogToRemove.title} by ${blogToRemove.author}`)
     if (ok) {
-      dispatch(deleteBlog(id))
+      props.deleteBlog(id)
       notifyWith('Blog deleted successfully!')
     }
   }
 
   const handleLogout = () => {
-    setUser(null)
-    storage.logoutUser()
+    props.removeUser()
   }
 
   if ( !user ) {
@@ -141,13 +138,16 @@ const App = (props) => {
   )
 }
 
-const mapStateToProps = (state) => {
-  return {blogs: state.blogs}
-}
-
 const mapDispatchToProps = {
-  setNotification
+  addBlog,
+  likeBlog,
+  deleteBlog,
+  initialBlogs,
+  setNotification,
+  setUser,
+  getUser,
+  removeUser
 }
 
-const ConnectedApp = connect(mapStateToProps, mapDispatchToProps)(App)
+const ConnectedApp = connect(null, mapDispatchToProps)(App)
 export default ConnectedApp
