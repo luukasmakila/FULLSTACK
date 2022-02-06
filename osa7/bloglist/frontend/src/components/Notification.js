@@ -3,7 +3,6 @@ import { connect } from 'react-redux'
 
 const Notification = (props) => {
   const notification = props.notification
-  console.log(notification)
   if ( !notification ) {
     return null
   }
