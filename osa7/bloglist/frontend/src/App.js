@@ -3,6 +3,7 @@ import Blog from './components/Blog'
 import Notification from './components/Notification'
 import Togglable from './components/Togglable'
 import NewBlog from './components/NewBlog'
+import User from './components/User'
 
 import loginService from './services/login'
 import storage from './utils/storage'
@@ -12,12 +13,14 @@ import { connect, useSelector } from 'react-redux'
 
 import { addBlog, deleteBlog, initialBlogs, likeBlog } from './reducers/BlogReducer'
 import { setUser, getUser, removeUser } from './reducers/UserReducer'
+import { getAllUsers } from './services/users'
 
 const App = (props) => {
   const blogs = useSelector((state) => state.blogs)
   const user = useSelector((state) => state.user)
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
+  const [users, setUsers] = useState([])
 
   const blogFormRef = React.createRef()
 
@@ -27,6 +30,14 @@ const App = (props) => {
 
   useEffect(() => {
     props.getUser()
+  }, [])
+
+  useEffect(() => {
+    const fetchUsers = async () => {
+      const users = await getAllUsers()
+      setUsers(users)
+    }
+    fetchUsers()
   }, [])
 
   const notifyWith = (message, type='success') => {
@@ -124,6 +135,14 @@ const App = (props) => {
       <Togglable buttonLabel='create new blog'  ref={blogFormRef}>
         <NewBlog createBlog={createBlog}/>
       </Togglable>
+
+      {users.map(user => 
+        <User
+          key={user.id}
+          user={user}
+          blogs={blogs}
+        />
+      )}
 
       {blogs.sort(byLikes).map(blog =>
         <Blog
