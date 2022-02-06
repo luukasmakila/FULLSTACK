@@ -24,6 +24,8 @@ const App = (props) => {
 
   const blogFormRef = React.createRef()
 
+  console.log(blogs)
+
   useEffect(() => {
     props.initialBlogs()
   }, [])
@@ -94,7 +96,6 @@ const App = (props) => {
     return (
       <div>
         <h2>login to application</h2>
-
         <Notification/>
 
         <form onSubmit={handleLogin}>
@@ -125,7 +126,6 @@ const App = (props) => {
   return (
     <div>
       <h2>blogs</h2>
-
       <Notification/>
 
       <p>
@@ -136,11 +136,13 @@ const App = (props) => {
         <NewBlog createBlog={createBlog}/>
       </Togglable>
 
+      <h2>Users</h2>
+      <p>User's name / number of blogs created</p>
       {users.map(user => 
         <User
           key={user.id}
           user={user}
-          blogs={blogs}
+          blogs={blogs.filter(blog => blog.user.id === user.id || blog.user === user.id)}
         />
       )}
 
