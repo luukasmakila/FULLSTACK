@@ -8,6 +8,10 @@ const blogReducer = (state = [], action) => {
       const blog = action.data
       console.log(blog)
       return [...state, blog]
+    case 'LIKE':
+      return [...state]
+    case 'DELETE':
+      return [...state]
     default:
       return [...state]
   }
@@ -20,6 +24,27 @@ export const addBlog = (blog) => {
     dispatch({
       type: 'ADD',
       data: newBlog
+    })
+  }
+}
+
+export const deleteBlog = (id) => {
+  return async dispatch => {
+    await blogService.remove(id)
+    const remainingBlogs = await blogService.getAll()
+    dispatch({
+      type: 'DELETE',
+      data: remainingBlogs
+    })
+  }
+}
+
+export const likeBlog = (blog) => {
+  return async dispatch => {
+    await blogService.update(blog)
+    dispatch({
+      type: 'LIKE',
+      data: blog
     })
   }
 }

@@ -10,10 +10,11 @@ import storage from './utils/storage'
 import { setNotification } from './reducers/NotificationReducer'
 import { connect, useDispatch } from 'react-redux'
 
-import { addBlog, initialBlogs } from './reducers/BlogReducer'
+import { addBlog, deleteBlog, initialBlogs, likeBlog } from './reducers/BlogReducer'
 
 const App = (props) => {
   const dispatch = useDispatch()
+  const blogs = props.blogs
   const [user, setUser] = useState(null)
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
@@ -22,7 +23,7 @@ const App = (props) => {
 
   useEffect(() => {
     dispatch(initialBlogs())
-  }, [dispatch])
+  }, [dispatch, blogs])
 
   useEffect(() => {
     const user = storage.loadUser()
@@ -60,22 +61,21 @@ const App = (props) => {
     }
   }
 
-/*   const handleLike = async (id) => {
-    const blogToLike = blogs.find(b => b.id === id)
+  const handleLike = async (id) => {
+    const blogToLike = props.blogs.find(b => b.id === id)
     const likedBlog = { ...blogToLike, likes: blogToLike.likes + 1, user: blogToLike.user.id }
-    await blogService.update(likedBlog)
-    setBlogs(blogs.map(b => b.id === id ?  { ...blogToLike, likes: blogToLike.likes + 1 } : b))
-  } */
+    dispatch(likeBlog(likedBlog))
+    notifyWith(`Liked ${likedBlog.title}`)
+  }
 
-/*   const handleRemove = async (id) => {
+  const handleRemove = async (id) => {
     const blogToRemove = blogs.find(b => b.id === id)
     const ok = window.confirm(`Remove blog ${blogToRemove.title} by ${blogToRemove.author}`)
     if (ok) {
-      await blogService.remove(id)
-      setBlogs(blogs.filter(b => b.id !== id))
+      dispatch(deleteBlog(id))
       notifyWith('Blog deleted successfully!')
     }
-  } */
+  }
 
   const handleLogout = () => {
     setUser(null)
@@ -128,12 +128,12 @@ const App = (props) => {
         <NewBlog createBlog={createBlog}/>
       </Togglable>
 
-      {props.blogs.sort(byLikes).map(blog =>
+      {blogs.sort(byLikes).map(blog =>
         <Blog
           key={blog.id}
           blog={blog}
-          //handleLike={handleLike}
-          //handleRemove={handleRemove}
+          handleLike={handleLike}
+          handleRemove={handleRemove}
           own={user.username===blog.user.username}
         />
       )}
