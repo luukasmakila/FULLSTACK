@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react'
+import './app.css'
 import Blog from './components/Blog'
 import Notification from './components/Notification'
 import Togglable from './components/Togglable'
@@ -6,7 +7,6 @@ import NewBlog from './components/NewBlog'
 import User from './components/User'
 
 import loginService from './services/login'
-import storage from './utils/storage'
 
 import { setNotification } from './reducers/NotificationReducer'
 import { connect, useSelector } from 'react-redux'
@@ -92,9 +92,10 @@ const App = (props) => {
     props.removeUser()
   }
 
-  if ( !user ) {
+  if ( !localStorage.getItem('loggedBlogAppUser') ) {
     return (
-      <div>
+      <div className='login-page'>
+      <div className='login-form'>
         <h2>login to application</h2>
         <Notification/>
 
@@ -118,13 +119,14 @@ const App = (props) => {
           <button id='login'>login</button>
         </form>
       </div>
+      </div>
     )
   }
 
   const byLikes = (b1, b2) => b2.likes - b1.likes
 
   return (
-    <div>
+    <div className='home-page'>
       <h2>blogs</h2>
       <Notification/>
 
