@@ -39,4 +39,12 @@ const calculateExercises = (exerciseHours: number[], targetHours: number): Resul
     }
 }
 
-console.log(calculateExercises([3, 0, 2, 4.5, 0, 3, 1], 2))
+const exerciseArgs: string[] = process.argv.slice(2) // ignore run commands
+
+const arrString = exerciseArgs[0].replace(/[\[\]]/g, '')
+const exerciesHours: number[] = arrString.split(",").map(Number).filter(n => !isNaN(n))
+
+const target: number = parseFloat(exerciseArgs[1])
+
+
+console.log(calculateExercises(exerciesHours, target))
