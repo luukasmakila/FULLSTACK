@@ -1,6 +1,9 @@
 {
   "devDependencies": {
     "@types/express": "^4.17.17",
+    "@typescript-eslint/eslint-plugin": "^5.59.6",
+    "@typescript-eslint/parser": "^5.59.6",
+    "eslint": "^8.41.0",
     "ts-node": "^10.9.1",
     "ts-node-dev": "^2.0.0",
     "typescript": "^5.0.4"
@@ -27,7 +30,8 @@
     "calculateExercises": "ts-node exerciseCalculator/exerciseCalculator.ts",
     "start": "ts-node express/index.ts",
     "dev": "ts-node-dev express/index.ts",
-    "bmiWeb": "ts-node-dev bmiWeb/index.ts"
+    "bmiWeb": "ts-node-dev bmiWeb/index.ts",
+    "lint": "eslint --ext .ts ."
   },
   "author": "",
   "license": "ISC"
