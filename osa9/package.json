@@ -26,7 +26,8 @@
     "calculateBmi": "ts-node bmiCalculator/bmiCalculator.ts",
     "calculateExercises": "ts-node exerciseCalculator/exerciseCalculator.ts",
     "start": "ts-node express/index.ts",
-    "dev": "ts-node-dev express/index.ts"
+    "dev": "ts-node-dev express/index.ts",
+    "bmiWeb": "ts-node-dev bmiWeb/index.ts"
   },
   "author": "",
   "license": "ISC"

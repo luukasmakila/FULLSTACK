@@ -1,8 +1,4 @@
-import express from "express"
-
-const app = express()
-
-const calculateBmi = (height: number, weight: number): string => {
+export const calculateBmi = (height: number, weight: number): string => {
     const heightInMeters: number = height / 100
     const bmi: number = weight / Math.pow(heightInMeters, 2)
     if (bmi < 16.0) return "Underweight (Severe thinness)"
@@ -16,29 +12,8 @@ const calculateBmi = (height: number, weight: number): string => {
     else return ""
 }
 
-app.get("/bmi", (request, response) => {
-    const {height, weight} = request.query
+const bmiArgs: string[] = process.argv.slice(2) // ignore run commands
+const height: number = parseFloat(bmiArgs[0])
+const weight: number = parseFloat(bmiArgs[1])
 
-    const heightNumber: number = parseFloat(height as string)
-    const weightNumber: number = parseFloat(weight as string)
-
-    const result: string = calculateBmi(heightNumber, weightNumber)
-
-    response.send({
-        "weight": weight,
-        "height": height,
-        "bmi": result
-    })
-})
-
-const PORT = 3003
-
-app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`)
-})
-
-//const bmiArgs: string[] = process.argv.slice(2) // ignore run commands
-//const height: number = parseFloat(bmiArgs[0])
-//const weight: number = parseFloat(bmiArgs[1])
-
-//console.log(calculateBmi(height, weight))
+console.log(calculateBmi(height, weight))
