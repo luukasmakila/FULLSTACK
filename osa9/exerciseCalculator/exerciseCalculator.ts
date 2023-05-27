@@ -8,7 +8,7 @@ interface Result {
     average: number
 }
 
-const calculateExercises = (exerciseHours: number[], targetHours: number): Result => {
+export const calculateExercises = (exerciseHours: number[], targetHours: number): Result => {
     const numberOfDays: number = exerciseHours.length;
     const numberOfTrainingDays: number = exerciseHours.filter(x => x > 0).length;
     const averageTime: number = exerciseHours.reduce((sum, curr) => sum + curr, 0) / numberOfDays;
@@ -39,12 +39,12 @@ const calculateExercises = (exerciseHours: number[], targetHours: number): Resul
     };
 };
 
-const exerciseArgs: string[] = process.argv.slice(2); // ignore run commands
+//const exerciseArgs: string[] = process.argv.slice(2); // ignore run commands
 
-const arrString = exerciseArgs[0].replace(/[[\]]/g, '');
-const exerciesHours: number[] = arrString.split(",").map(Number).filter(n => !isNaN(n));
+//const arrString = exerciseArgs[0].replace(/[[\]]/g, '');
+//const exerciesHours: number[] = arrString.split(",").map(Number).filter(n => !isNaN(n));
 
-const target: number = parseFloat(exerciseArgs[1]);
+//const target: number = parseFloat(exerciseArgs[1]);
 
 
-console.log(calculateExercises(exerciesHours, target));
+//console.log(calculateExercises(exerciesHours, target));
