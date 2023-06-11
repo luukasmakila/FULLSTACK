@@ -1,5 +1,5 @@
 import express from "express";
-import { getPatients } from "./services/patientService";
+import { getPatients, addPatient } from "./services/patientService";
 import diagnosesData  from "./data/diagnoses";
 import { Diagnose } from "./types";
 
@@ -30,6 +30,12 @@ app.get("/api/diagnoses", (_req, res) => {
 app.get("/api/patients", (_req, res) => {
     res.json(getPatients());
 });
+
+app.post("/api/patients", (req, res) => {
+    const { name, ssn, dateOfBirth, occupation, gender } = req.body;
+    const newPatient = addPatient(name, ssn, dateOfBirth, occupation, gender)
+    res.json(newPatient)
+})
 
 app.listen(PORT, () => {
     console.log(`Server running on ${PORT}`);

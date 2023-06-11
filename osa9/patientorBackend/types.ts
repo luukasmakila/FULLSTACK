@@ -16,3 +16,5 @@ export type Patient = {
 }
 
 export type NonSsnPatient = Omit<Patient, "ssn">;
+
+export type Gender = "male" | "female" | "other"
