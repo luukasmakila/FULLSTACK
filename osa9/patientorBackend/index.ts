@@ -32,9 +32,7 @@ app.get("/api/patients", (_req, res) => {
 });
 
 app.post("/api/patients", (req, res) => {
-    const { name, ssn, dateOfBirth, occupation, gender } = req.body;
-    const newPatient = addPatient(name, ssn, dateOfBirth, occupation, gender)
-    res.json(newPatient)
+    res.json(addPatient(req.body))
 })
 
 app.listen(PORT, () => {
