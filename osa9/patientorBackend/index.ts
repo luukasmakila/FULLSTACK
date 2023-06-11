@@ -1,7 +1,7 @@
 import express from "express";
+import { getPatients } from "./services/patientService";
 import diagnosesData  from "./data/diagnoses";
-import patientData from "./data/patient";
-import { Diagnose, NonSsnPatient } from "./types";
+import { Diagnose } from "./types";
 
 const app = express();
 app.use(express.json());
@@ -28,15 +28,7 @@ app.get("/api/diagnoses", (_req, res) => {
 });
 
 app.get("/api/patients", (_req, res) => {
-    const patients: NonSsnPatient[] = patientData.map(({ id, name, dateOfBirth, gender, occupation}) => ({
-        id,
-        name,
-        dateOfBirth,
-        gender,
-        occupation
-    }));
-
-    res.json(patients)
+    res.json(getPatients());
 });
 
 app.listen(PORT, () => {
